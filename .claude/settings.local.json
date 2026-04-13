@@ -26,7 +26,9 @@
       "Bash(find /c/code/npmsharpee -name \"package.json\" -maxdepth 1 -exec cat {} \\\\;)",
       "Bash(xargs grep:*)",
       "Bash(find /c/code/text-games -name \"walkthrough_output.txt\" -exec dirname {} \\\\;)",
-      "Bash(npx transcript-test:*)"
+      "Bash(npx transcript-test:*)",
+      "Bash(python tools/compile_sharpee.py fever-dream --force --ship)",
+      "Bash(python tools/compile_sharpee.py feverdream-sharpee --force --ship)"
     ]
   }
 }
