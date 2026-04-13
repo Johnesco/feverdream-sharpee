@@ -10,18 +10,12 @@ Fluorescent tubes buzz overhead, one flickering at the far end. A long counter d
 
 You can see fluorescent tubes, long counter, intake form, spectacles here.
 
->
-
 >take spectacles
 Taken.
-
->
 
 >wear spectacles
 You put on spectacles.
 You settle the spectacles on your nose. The lenses are thick, heavy. The room sharpens at its edges — details you missed before push forward into clarity.
-
->
 
 >east
 Corridor
@@ -30,8 +24,6 @@ A long hallway tiled in white. Several tiles are cracked, revealing raw concrete
 
 You can see white tiles, trapdoor here.
 
->
-
 >down
 Stairwell
 
@@ -39,12 +31,8 @@ Concrete steps descend to a landing. The air turns cold and damp. Pipes run alon
 
 You can see sweating pipes, pipe wrench here.
 
->
-
 >take wrench
 Taken.
-
->
 
 >south
 Laboratory
@@ -53,18 +41,12 @@ A long room lined with workbenches and glass-fronted cabinets. Everything is lab
 
 You can see workbenches, lab plaque, glass case here.
 
->
-
 >read plaque
 Lab plaque reads:
 CISTERN MAINTENANCE — Valve operation: LEFT drains. RIGHT floods. Do not operate without authorization.
 
->
-
 >break glass case with wrench
 You swing the wrench. The glass shatters cleanly. The brass key drops into your hand.
-
->
 
 >east
 Cold Storage
@@ -73,23 +55,15 @@ The temperature drops immediately. Your breath fogs. Racks of specimen jars line
 
 You can see specimen jars, metal cabinet here.
 
->
-
 >unlock cabinet with brass key
 You unlock metal cabinet with brass key.
-
->
 
 >open cabinet
 You open metal cabinet.
 Inside the metal cabinet you see glass dish, grey fungus.
 
->
-
 >take fungus
 You take grey fungus from metal cabinet.
-
->
 
 >west
 Laboratory
@@ -98,13 +72,9 @@ A long room lined with workbenches and glass-fronted cabinets. Everything is lab
 
 You can see workbenches, lab plaque, glass case here.
 
->
-
 >eat fungus
 You eat grey fungus.
 It tastes of nothing. Then of everything. The walls ripple once and settle into new shapes. You understand, now, that this is not distortion. This is clarity. The world has not changed. Your ability to see it has.
-
->
 
 >south
 Cistern
@@ -116,12 +86,8 @@ A hiss from the cracked pipes overhead. Something cold and chemical settles on y
 
 When your vision steadies, the world has not returned to normal. It has gone further.
 
->
-
 >turn valve left
 Metal screams against metal as you force the valve left. The water shudders, then begins to drain — slowly at first, then in a sudden rush. The dark water drops, revealing walls coated in pale slime. A drainage grate stands open in the floor, revealing a narrow passage descending further.
-
->
 
 >down
 Source
@@ -130,8 +96,6 @@ A space that should not exist beneath a building this size. The walls are membra
 
 You can see membrane walls, stone basin here.
 
->
-
 >touch basin
 You reach in. It reaches back.
 
@@ -139,5 +103,3 @@ The light expands. It fills your hands, your arms, your chest. You feel it behin
 
 You understand now. You have always been the patient. The treatment is complete.
 *** You have won ***
-
->
