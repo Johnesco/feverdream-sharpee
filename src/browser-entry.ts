@@ -115,6 +115,16 @@ function initializeGame(): void {
       case 'story.event.basin-touch':
         triggerEventAnimation('event-basin-touch', 3000);
         break;
+
+      case 'story.event.game-end':
+        // Disable input after game ends
+        setTimeout(() => {
+          if (commandInput) {
+            commandInput.disabled = true;
+            commandInput.placeholder = event.data?.won ? 'The treatment is complete.' : 'Game over.';
+          }
+        }, event.data?.won ? 3200 : 3200);
+        break;
     }
   });
 

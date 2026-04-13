@@ -33,6 +33,11 @@ export const PerceptionMsg = {
   CISTERN_TRANSFORMED: 'story.transform.cistern',
 } as const;
 
+export const EndgameMsg = {
+  WIN: 'story.endgame.win',
+  FLOOD_DEATH: 'story.endgame.flood_death',
+} as const;
+
 export const ActionMsg = {
   // Breaking
   BREAK_GLASS: 'story.break.glass_case',
@@ -190,7 +195,13 @@ export function registerMessages(language: LanguageProvider): void {
   // ── Actions: Basin ──
 
   language.addMessage(ActionMsg.BASIN_TOUCH,
-    'You reach in. It reaches back.');
+    'You reach in. It reaches back.\n\nThe light expands. It fills your hands, your arms, your chest. You feel it behind your eyes — not heat, not cold, but recognition. The building above you does not exist. The rooms, the corridors, the instruments — they were always this. Membrane and bone and light, folded into shapes you could almost name.\n\nYou understand now. You have always been the patient. The treatment is complete.');
+
+  language.addMessage(EndgameMsg.WIN,
+    '*** You have won ***');
+
+  language.addMessage(EndgameMsg.FLOOD_DEATH,
+    '*** You have died ***');
 
   language.addMessage(ActionMsg.BASIN_NOT_HERE,
     'There is nothing like that here.');

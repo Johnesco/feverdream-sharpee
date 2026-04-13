@@ -13,7 +13,11 @@
       "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/tests/transcripts/\"*.transcript \"C:/code/npmsharpee/games/fever-dream/tests/transcripts/\")",
       "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/walkthroughs/\"*.transcript \"C:/code/npmsharpee/games/fever-dream/walkthroughs/\")",
       "Bash(npx sharpee:*)",
-      "Bash(bash ship.sh fever-dream --ship --force --no-test)"
+      "Bash(bash ship.sh fever-dream --ship --force --no-test)",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/index.ts\" \"C:/code/npmsharpee/games/fever-dream/src/index.ts\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/depths.ts\" \"C:/code/npmsharpee/games/fever-dream/src/depths.ts\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/language.ts\" \"C:/code/npmsharpee/games/fever-dream/src/language.ts\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/browser-entry.ts\" \"C:/code/npmsharpee/games/fever-dream/src/browser-entry.ts\")"
     ]
   }
 }

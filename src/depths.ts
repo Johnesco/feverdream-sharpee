@@ -38,7 +38,7 @@ export function createDepths(world: WorldModel): DepthIds {
   cistern.add(new RoomTrait({ exits: {}, isDark: false }));
   cistern.add(new IdentityTrait({
     name: 'Cistern',
-    description: 'A circular chamber of old brick, half-filled with dark water. The walls are slick with mineral deposits. Pipes enter from above, some intact, some cracked and leaking. An iron valve protrudes from the north wall at chest height. A faded instructional sign hangs beside it. The passage back west climbs toward the laboratory.',
+    description: 'A circular chamber of old brick, half-filled with dark water. The walls are slick with mineral deposits. Pipes enter from above, some intact, some cracked and leaking. An iron valve protrudes from the north wall at chest height. A faded instructional sign hangs beside it. The passage back north climbs toward the laboratory.',
     aliases: ['cistern', 'chamber', 'water chamber'],
     properName: true,
   }));

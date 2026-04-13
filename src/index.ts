@@ -34,7 +34,7 @@ import { createBasement, BasementIds } from './basement.js';
 import { createDepths, DepthIds } from './depths.js';
 import { createItems, ItemIds } from './items.js';
 import { PerceptionStateTrait, ROOM_ZONES } from './perception.js';
-import { registerMessages, PerceptionMsg, ActionMsg } from './language.js';
+import { registerMessages, PerceptionMsg, ActionMsg, EndgameMsg } from './language.js';
 import { createAudioRegistry, SfxCue, ProceduralCue } from './audio.js';
 import type { AudioRegistry } from '@sharpee/media';
 
@@ -107,10 +107,10 @@ class FeverDreamStory implements Story {
       };
     }
 
-    // Cistern → Laboratory (WEST — always available once you're in the cistern)
+    // Cistern → Laboratory (NORTH — always available once you're in the cistern)
     const cisternRoom = world.getEntity(depthIds.cistern);
     if (cisternRoom) {
-      cisternRoom.get(RoomTrait)!.exits[Direction.WEST] = {
+      cisternRoom.get(RoomTrait)!.exits[Direction.NORTH] = {
         destination: basementIds.laboratory,
       };
     }
@@ -212,7 +212,7 @@ class FeverDreamStory implements Story {
       if (cisternRoom) {
         const cId = cisternRoom.get(IdentityTrait);
         if (cId) {
-          cId.description = 'Th3 chamb_r is al1ve. The brikcs are t33th in a circuler jaw. Th3 dark watr below is a thro@t, swllowing and unswll0wing. An ir0n valv3 gros from the n0rth wall. Bes1de it, a s1gn. The pa55age back w3st climbs t0ward the lab0ratory.';
+          cId.description = 'Th3 chamb_r is al1ve. The brikcs are t33th in a circuler jaw. Th3 dark watr below is a thro@t, swllowing and unswll0wing. An ir0n valv3 gros from the n0rth wall. Bes1de it, a s1gn. The pa55age back n0rth climbs t0ward the lab0ratory.';
         }
       }
 
@@ -267,12 +267,16 @@ class FeverDreamStory implements Story {
       perception.fungusConsumed = true;
       perception.state = 'clarity';
 
-      // Open Laboratory → Cistern exit
+      // Open Laboratory → Cistern exit and update lab description
       const lab = w.getEntity(basementIds.laboratory);
       if (lab) {
         lab.get(RoomTrait)!.exits[Direction.SOUTH] = {
           destination: depthIds.cistern,
         };
+        const labId = lab.get(IdentityTrait);
+        if (labId) {
+          labId.description = 'A long room lined with workbenches and glass-fronted cabinets. Everything is labeled in the same careful handwriting. The stairwell is north. A heavy door leads east to cold storage. At the south end, the floor has split open — a wound with smooth, glistening edges. A dark passage descends through it.';
+        }
       }
 
       // ── Transform world descriptions for clarity state ──
@@ -330,7 +334,7 @@ class FeverDreamStory implements Story {
       if (cisternRoom) {
         const cId = cisternRoom.get(IdentityTrait);
         if (cId) {
-          cId.description = 'The chamber is alive. The bricks are teeth in a circular jaw. The dark water below is a throat, swallowing and unswallowing in slow rhythm. The pipes overhead are arteries, pulsing with something that is not water. An iron valve grows from the north wall like a bone spur. Beside it, a sign hangs from the flesh of the wall. The passage back west climbs toward the laboratory.';
+          cId.description = 'The chamber is alive. The bricks are teeth in a circular jaw. The dark water below is a throat, swallowing and unswallowing in slow rhythm. The pipes overhead are arteries, pulsing with something that is not water. An iron valve grows from the north wall like a bone spur. Beside it, a sign hangs from the flesh of the wall. The passage back north climbs toward the laboratory.';
         }
       }
 
@@ -530,7 +534,7 @@ function createTurnLeftAction(): Action {
       if (cisternRoom) {
         const identity = cisternRoom.get(IdentityTrait);
         if (identity) {
-          identity.description = 'A circular chamber of old brick. The water is gone. The walls are coated in pale slime. The drainage grate stands open in the floor, revealing a narrow passage descending further. The passage back west climbs toward the laboratory.';
+          identity.description = 'A circular chamber of old brick. The water is gone. The walls are coated in pale slime. The drainage grate stands open in the floor, revealing a narrow passage descending further. The passage back north climbs toward the laboratory.';
         }
         // Open Cistern → Source exit
         cisternRoom.get(RoomTrait)!.exits[Direction.DOWN] = {
@@ -592,6 +596,10 @@ function createTurnRightAction(): Action {
         }),
         ...(audio?.cue(SfxCue.VALVE_FLOOD) ?? []),
         ...(audio?.cue(ProceduralCue.SWEEP_DOWN) ?? []),
+        context.event('story.event.game-end', {
+          messageId: EndgameMsg.FLOOD_DEATH,
+          won: false,
+        }),
       ];
     },
 
@@ -633,6 +641,10 @@ function createTouchAction(): Action {
           messageId: ActionMsg.BASIN_TOUCH,
         }),
         ...(audio?.cue(SfxCue.BASIN_TOUCH) ?? []),
+        context.event('story.event.game-end', {
+          messageId: EndgameMsg.WIN,
+          won: true,
+        }),
       ];
     },
 
