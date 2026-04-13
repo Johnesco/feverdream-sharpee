@@ -17,7 +17,16 @@
       "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/index.ts\" \"C:/code/npmsharpee/games/fever-dream/src/index.ts\")",
       "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/depths.ts\" \"C:/code/npmsharpee/games/fever-dream/src/depths.ts\")",
       "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/language.ts\" \"C:/code/npmsharpee/games/fever-dream/src/language.ts\")",
-      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/browser-entry.ts\" \"C:/code/npmsharpee/games/fever-dream/src/browser-entry.ts\")"
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/browser-entry.ts\" \"C:/code/npmsharpee/games/fever-dream/src/browser-entry.ts\")",
+      "Bash(grep -l \"replay\\\\|transcript.*run\\\\|game.*text\\\\|playthrough\\\\|exec.*command\" \"C:/code/ifhub/tools/\"*.py)",
+      "Bash(grep -n \"def.*sharpee\\\\|exec\\\\|--exec\\\\|play.*text\\\\|text.*dump\\\\|output.*file\\\\|capture\\\\|record\" \"C:/code/ifhub/tools/adapters/\"*.py)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(npm list:*)",
+      "Bash(npm ls:*)",
+      "Bash(find /c/code/npmsharpee -name \"package.json\" -maxdepth 1 -exec cat {} \\\\;)",
+      "Bash(xargs grep:*)",
+      "Bash(find /c/code/text-games -name \"walkthrough_output.txt\" -exec dirname {} \\\\;)",
+      "Bash(npx transcript-test:*)"
     ]
   }
 }
