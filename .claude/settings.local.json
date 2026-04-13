@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:sharpee.net)",
+      "Bash(gh api:*)",
+      "Bash(xargs -I {} sh -c \"echo '=== {} ===' && gh api repos/ChicagoDave/sharpee/contents/packages/stdlib/src/{} --jq '.[].name' 2>&1 | head -5\")",
+      "Bash(gh search:*)",
+      "Bash(mkdir -p \"C:\\\\code\\\\text-games\\\\deploy\\\\feverdream-sharpee\\\\walkthroughs\")",
+      "Bash(mkdir -p \"C:\\\\code\\\\text-games\\\\deploy\\\\feverdream-sharpee\\\\tests\\\\transcripts\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/ward.ts\" \"C:/code/npmsharpee/games/fever-dream/src/ward.ts\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/src/basement.ts\" \"C:/code/npmsharpee/games/fever-dream/src/basement.ts\")",
+      "Bash(mkdir -p \"C:/code/npmsharpee/games/fever-dream/tests/transcripts\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/tests/transcripts/\"*.transcript \"C:/code/npmsharpee/games/fever-dream/tests/transcripts/\")",
+      "Bash(cp \"C:/code/text-games/deploy/feverdream-sharpee/walkthroughs/\"*.transcript \"C:/code/npmsharpee/games/fever-dream/walkthroughs/\")",
+      "Bash(npx sharpee:*)",
+      "Bash(bash ship.sh fever-dream --ship --force --no-test)"
+    ]
+  }
+}

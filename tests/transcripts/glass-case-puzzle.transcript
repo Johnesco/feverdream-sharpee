@@ -1,0 +1,33 @@
+title: Glass Case Puzzle
+story: fever-dream
+description: Tests breaking the glass case with and without the wrench
+
+---
+
+## Cannot break without wrench
+
+$teleport Laboratory
+
+> break glass case
+[OK: contains "bare hands"]
+[EVENT: false, type="story.event.glass-break"]
+
+## Cannot break random objects
+
+> break workbenches
+[OK: contains "Violence"]
+[EVENT: false, type="story.event.glass-break"]
+
+## Break succeeds with wrench
+
+$take pipe wrench
+
+> break glass case with wrench
+[OK: contains "brass key"]
+[EVENT: true, type="story.event.glass-break"]
+
+## Cannot break again
+
+> break glass case with wrench
+[OK: contains "already shattered"]
+[EVENT: false, type="story.event.glass-break"]

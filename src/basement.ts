@@ -139,29 +139,10 @@ export function createBasement(world: WorldModel): BasementIds {
   // keyId is set in items.ts after the brass key is created
   world.moveEntity(cabinet.id, coldStorage.id);
 
-  // Scenery: glass dish (inside cabinet — placed in items.ts)
-  const glassDish = world.createEntity('glass dish', EntityType.SCENERY);
-  glassDish.add(new IdentityTrait({
-    name: 'glass dish',
-    description: 'A shallow petri dish. A label reads: "PERCEPTUAL AGENT — STAGE 2 THERAPY. CONSUME FOR ACCESS TO LOWER LEVELS."',
-    aliases: ['dish', 'glass dish', 'petri dish'],
-  }));
-  glassDish.add(new SceneryTrait());
-  glassDish.add(new ReadableTrait({
-    text: 'PERCEPTUAL AGENT — STAGE 2 THERAPY. CONSUME FOR ACCESS TO LOWER LEVELS.',
-  }));
-  // Placed inside cabinet in items.ts
-
   // ─── Wire Exits ───────────────────────────────────────────────────
 
-  const stairwellTrait = stairwell.get(RoomTrait)!;
-  const labTrait = laboratory.get(RoomTrait)!;
-  const coldTrait = coldStorage.get(RoomTrait)!;
-
-  stairwellTrait.exits[Direction.SOUTH] = { destination: laboratory.id };
-  labTrait.exits[Direction.NORTH] = { destination: stairwell.id };
-  labTrait.exits[Direction.EAST] = { destination: coldStorage.id };
-  coldTrait.exits[Direction.WEST] = { destination: laboratory.id };
+  world.connectRooms(stairwell.id, laboratory.id, Direction.SOUTH);
+  world.connectRooms(laboratory.id, coldStorage.id, Direction.EAST);
 
   // NOTE: Up from Stairwell → Corridor is wired in index.ts
   // NOTE: South from Lab → Cistern is wired dynamically after fungus consumption

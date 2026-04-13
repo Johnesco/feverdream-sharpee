@@ -1,0 +1,14 @@
+title: Valve Flood — Game Over
+story: fever-dream
+description: Tests that turning the valve right triggers game over
+
+---
+
+$teleport Cistern
+
+## Right floods — game over
+
+> turn valve right
+[OK: contains "flood"]
+[OK: contains "does not stop"]
+[EVENT: true, type="story.event.valve-flood"]

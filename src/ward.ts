@@ -140,14 +140,8 @@ export function createWard(world: WorldModel): WardIds {
 
   // ─── Wire Exits ───────────────────────────────────────────────────
 
-  const receivingRoomTrait = receivingRoom.get(RoomTrait)!;
-  const corridorTrait = corridor.get(RoomTrait)!;
-  const treatmentTrait = treatmentRoom.get(RoomTrait)!;
-
-  receivingRoomTrait.exits[Direction.EAST] = { destination: corridor.id };
-  corridorTrait.exits[Direction.WEST] = { destination: receivingRoom.id };
-  corridorTrait.exits[Direction.EAST] = { destination: treatmentRoom.id };
-  treatmentTrait.exits[Direction.WEST] = { destination: corridor.id };
+  world.connectRooms(receivingRoom.id, corridor.id, Direction.EAST);
+  world.connectRooms(corridor.id, treatmentRoom.id, Direction.EAST);
 
   // NOTE: Down exit from Corridor → Stairwell is wired in index.ts
   // after basement rooms exist, and only when spectacles are worn

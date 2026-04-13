@@ -1,0 +1,28 @@
+title: Valve Puzzle
+story: fever-dream
+description: Tests valve left (drain) and right (flood) outcomes
+
+---
+
+## Setup — get to cistern with fungus consumed
+
+$teleport Cistern
+
+## No valve elsewhere
+
+# Valve commands only work on the iron valve
+> turn valve left
+[OK: not contains "no valve"]
+
+## Left drains successfully
+
+> turn valve left
+[OK: contains "drain"]
+[EVENT: true, type="story.event.valve-drain"]
+[OK: not contains "flood"]
+
+## Cannot drain twice
+
+> turn valve left
+[OK: contains "already"]
+[EVENT: false, type="story.event.valve-drain"]
