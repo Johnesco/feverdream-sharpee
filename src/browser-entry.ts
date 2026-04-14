@@ -36,6 +36,10 @@ let historyIndex = -1;
 let currentTurn = 0;
 let currentScore = 0;
 let currentZone: Zone | null = null;
+let audioUnlocked = false;
+let pendingAudioEvents: Array<{ type: string; data: any }> = [];
+let ambientChannels = new Map<string, HTMLAudioElement>();
+let musicTrack: HTMLAudioElement | null = null;
 
 // ─── Engine Initialization ─────────────────────────────────────
 
@@ -76,6 +80,11 @@ function initializeGame(): void {
   // ── Event Listener: CSS Effects + Audio ──
   engine.on('event', (event: any) => {
     const type = event.type as string;
+
+    // Forward audio events
+    if (type.startsWith('audio.')) {
+      handleAudioEvent(event as { type: string; data: any });
+    }
 
     // Score tracking
     if (type === 'game.score_changed' && event.data) {
@@ -133,6 +142,67 @@ function initializeGame(): void {
   });
 
   engine.setStory(story);
+}
+
+// ─── Audio System ──────────────────────────────────────────────
+
+function unlockAudio(): void {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  const pending = pendingAudioEvents.splice(0);
+  for (const event of pending) {
+    handleAudioEvent(event);
+  }
+}
+
+function handleAudioEvent(event: { type: string; data: any }): void {
+  if (!audioUnlocked) {
+    pendingAudioEvents.push(event);
+    return;
+  }
+  const data = event.data ?? {};
+  switch (event.type) {
+    case 'audio.sfx': {
+      const sfx = new Audio(data.src);
+      sfx.volume = data.volume ?? 1.0;
+      sfx.play().catch(() => console.debug('[audio] SFX play failed:', data.src));
+      break;
+    }
+    case 'audio.ambient.play': {
+      const channel = data.channel as string;
+      const existing = ambientChannels.get(channel);
+      if (existing) existing.pause();
+      const audio = new Audio(data.src);
+      audio.loop = data.loop !== false;
+      audio.volume = data.volume ?? 0.3;
+      audio.play().catch(() => console.debug('[audio] Ambient play failed:', channel));
+      ambientChannels.set(channel, audio);
+      break;
+    }
+    case 'audio.ambient.stop': {
+      const el = ambientChannels.get(data.channel);
+      if (el) { el.pause(); ambientChannels.delete(data.channel); }
+      break;
+    }
+    case 'audio.ambient.stop_all': {
+      for (const [, el] of ambientChannels) el.pause();
+      ambientChannels.clear();
+      break;
+    }
+    case 'audio.music.play': {
+      if (musicTrack) musicTrack.pause();
+      const music = new Audio(data.src);
+      music.loop = data.loop !== false;
+      music.volume = data.volume ?? 0.5;
+      music.play().catch(() => console.debug('[audio] Music play failed'));
+      musicTrack = music;
+      break;
+    }
+    case 'audio.music.stop': {
+      if (musicTrack) { musicTrack.pause(); musicTrack = null; }
+      break;
+    }
+  }
 }
 
 // ─── CSS Effect System ─────────────────────────────────────────
@@ -277,6 +347,7 @@ async function handleCommand(): Promise<void> {
   const command = commandInput.value.trim();
   if (!command) return;
 
+  unlockAudio();
   commandHistory.push(command);
   historyIndex = commandHistory.length;
   commandInput.value = '';
