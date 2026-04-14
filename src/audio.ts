@@ -52,7 +52,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.GLASS_BREAK, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/glass-shatter.mp3',
+      src: 'sfx/glass.ogg',
       volume: 0.85,
       duck: 2,
     }),
@@ -60,7 +60,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.VALVE_SCREECH, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/metal-screech.mp3',
+      src: 'sfx/valve-screech.ogg',
       volume: 0.9,
       duck: 3,
     }),
@@ -68,7 +68,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.VALVE_FLOOD, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/water-rush.mp3',
+      src: 'sfx/flood-rush.ogg',
       volume: 1.0,
       duck: 3,
     }),
@@ -76,7 +76,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.SPRAY_HISS, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/spray-hiss.mp3',
+      src: 'sfx/spray-hiss.ogg',
       volume: 0.7,
       duck: 2,
     }),
@@ -84,7 +84,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.BASIN_TOUCH, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/basin-resonance.mp3',
+      src: 'sfx/basin-touch.ogg',
       volume: 0.8,
       duck: 3,
     }),
@@ -92,31 +92,31 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.KEY_DROP, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/key-drop.mp3',
-      volume: 0.6,
+      src: 'sfx/glass.ogg',
+      volume: 0.4,
       duck: 1,
     }),
   );
 
   audio.registerCue(SfxCue.CABINET_UNLOCK, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/lock-click.mp3',
-      volume: 0.5,
+      src: 'sfx/glass.ogg',
+      volume: 0.3,
       duck: 1,
     }),
   );
 
   audio.registerCue(SfxCue.CABINET_OPEN, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/cabinet-creak.mp3',
-      volume: 0.5,
+      src: 'sfx/valve-screech.ogg',
+      volume: 0.3,
       duck: 1,
     }),
   );
 
   audio.registerCue(SfxCue.SPECTACLES_ON, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/lens-focus.mp3',
+      src: 'sfx/drone-horror.ogg',
       volume: 0.4,
       duck: 1,
     }),
@@ -124,7 +124,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.FUNGUS_EAT, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/organic-pulse.mp3',
+      src: 'sfx/fungus-consume.ogg',
       volume: 0.7,
       duck: 2,
     }),
@@ -132,7 +132,7 @@ export function createAudioRegistry(
 
   audio.registerCue(SfxCue.WOUND_OPEN, () =>
     createTypedEvent('audio.sfx', {
-      src: 'sfx/flesh-tear.mp3',
+      src: 'sfx/heartbeat.ogg',
       volume: 0.6,
       duck: 2,
     }),
