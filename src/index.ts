@@ -35,8 +35,10 @@ import { createDepths, DepthIds } from './depths.js';
 import { createItems, ItemIds } from './items.js';
 import { PerceptionStateTrait, ROOM_ZONES } from './perception.js';
 import { registerMessages, PerceptionMsg, ActionMsg, EndgameMsg } from './language.js';
-import { createAudioRegistry, SfxCue, ProceduralCue } from './audio.js';
+import { createAudioRegistry, SfxCue } from './audio.js';
 import type { AudioRegistry } from '@sharpee/media';
+import type { Effect } from '@sharpee/event-processor';
+import { createTypedEvent } from '@sharpee/core';
 
 // ─── Story Config ───────────────────────────────────────────────────
 
@@ -94,7 +96,7 @@ class FeverDreamStory implements Story {
     itemIds = createItems(world, wardIds, basementIds);
 
     // Create audio registry and store on world state
-    const audio = createAudioRegistry(wardIds, basementIds, depthIds);
+    const audio = createAudioRegistry();
     world.setStateValue(STATE.AUDIO, audio);
 
     // ── Cross-module exit wiring ──
@@ -178,6 +180,51 @@ class FeverDreamStory implements Story {
 
   onEngineReady(engine: GameEngine): void {
     const world = engine.getWorld();
+
+    // ── Audio handlers: attach SFX to story/chain events that mutate state ──
+    //
+    // Three I7 sound cues (fungus-consume, spray-hiss, heartbeat) fire from
+    // moments that Sharpee handles via chainEvent — which has no return-slot
+    // for side-effect events. We observe the resulting story/stdlib events
+    // here and emit the audio cues as Effect[] side-effects (dungeo pattern).
+
+    const audio = world.getStateValue(STATE.AUDIO) as AudioRegistry | undefined;
+    const eventProcessor = engine.getEventProcessor();
+
+    const emitCue = (cueId: string): Effect[] => {
+      const events = audio?.cue(cueId);
+      if (!events || events.length === 0) return [];
+      return events.map((event) => ({ type: 'emit', event }));
+    };
+
+    // Fungus-consume: chainEvent on 'if.event.eaten' replaces it with
+    // 'story.event.fungus-consumed' (see chain registration below).
+    eventProcessor.registerHandler(
+      'story.event.fungus-consumed',
+      (): Effect[] => emitCue(SfxCue.FUNGUS_EAT),
+    );
+
+    // Spray-hiss: the spray-exposure chainEvent emits 'story.event.spray-exposure'
+    // when the player enters the Cistern with fungus consumed.
+    eventProcessor.registerHandler(
+      'story.event.spray-exposure',
+      (): Effect[] => emitCue(SfxCue.SPRAY_HISS),
+    );
+
+    // Heartbeat: going down from the Cistern into the Source (no custom chain;
+    // use raw actor_moved with a room-pair check).
+    eventProcessor.registerHandler(
+      'if.event.actor_moved',
+      (event: ISemanticEvent): Effect[] => {
+        const data = event.data as Record<string, any> | undefined;
+        const from = data?.fromRoom;
+        const to = data?.toRoom ?? data?.destination;
+        if (from === depthIds.cistern && to === depthIds.source) {
+          return emitCue(SfxCue.WOUND_OPEN);
+        }
+        return [];
+      },
+    );
 
     // ── Spray exposure: auto-trigger on entering Cistern with fungus consumed ──
 
@@ -595,7 +642,6 @@ function createTurnRightAction(): Action {
           messageId: ActionMsg.VALVE_RIGHT,
         }),
         ...(audio?.cue(SfxCue.VALVE_FLOOD) ?? []),
-        ...(audio?.cue(ProceduralCue.SWEEP_DOWN) ?? []),
         context.event('story.event.game-end', {
           messageId: EndgameMsg.FLOOD_DEATH,
           won: false,
