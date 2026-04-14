@@ -94,9 +94,13 @@ function initializeGame(): void {
         break;
 
       case 'story.event.fungus-consumed':
-        triggerEventAnimation('event-fungus-consumed', 2500);
-        // Perception state changes after animation
-        setTimeout(() => syncPerception(), 2600);
+        triggerEventAnimation('event-fungus-consumed', 6000);
+        // Perception state starts the 40s container warp (slow onset)
+        setTimeout(() => syncPerception(), 2000);
+        // Per-character wave kicks in as the warp builds (~5s into container anim)
+        setTimeout(() => applyTripChars(), 7000);
+        // Remove per-character wrapping as trip winds down
+        setTimeout(() => removeTripChars(), 22000);
         break;
 
       case 'story.event.spray-exposure':
@@ -141,6 +145,56 @@ function triggerEventAnimation(className: string, durationMs: number): void {
   setTimeout(() => {
     document.body.classList.remove(className);
   }, durationMs);
+}
+
+/**
+ * Wrap visible text characters in spans for per-character wave animation.
+ * Each non-whitespace character gets a .trip-char span with --i for
+ * staggered animation-delay, creating a visible wave across text.
+ */
+function applyTripChars(): void {
+  if (!textContent) return;
+
+  const walker = document.createTreeWalker(textContent, NodeFilter.SHOW_TEXT);
+  const textNodes: Text[] = [];
+  let node: Text | null;
+  while ((node = walker.nextNode() as Text | null)) {
+    if (node.textContent && node.textContent.trim()) {
+      textNodes.push(node);
+    }
+  }
+
+  let charIndex = 0;
+  for (const textNode of textNodes) {
+    const text = textNode.textContent || '';
+    const fragment = document.createDocumentFragment();
+    for (const char of text) {
+      if (char === ' ' || char === '\n' || char === '\r' || char === '\t') {
+        fragment.appendChild(document.createTextNode(char));
+      } else {
+        const span = document.createElement('span');
+        span.className = 'trip-char';
+        span.style.setProperty('--i', String(charIndex % 200));
+        span.textContent = char;
+        fragment.appendChild(span);
+        charIndex++;
+      }
+    }
+    textNode.parentNode?.replaceChild(fragment, textNode);
+  }
+}
+
+/**
+ * Remove trip-char spans, restoring normal text flow.
+ */
+function removeTripChars(): void {
+  if (!textContent) return;
+  const spans = textContent.querySelectorAll('.trip-char');
+  spans.forEach((span) => {
+    const text = document.createTextNode(span.textContent || '');
+    span.parentNode?.replaceChild(text, span);
+  });
+  textContent.normalize();
 }
 
 /**

@@ -28,7 +28,15 @@
       "Bash(find /c/code/text-games -name \"walkthrough_output.txt\" -exec dirname {} \\\\;)",
       "Bash(npx transcript-test:*)",
       "Bash(python tools/compile_sharpee.py fever-dream --force --ship)",
-      "Bash(python tools/compile_sharpee.py feverdream-sharpee --force --ship)"
+      "Bash(python tools/compile_sharpee.py feverdream-sharpee --force --ship)",
+      "Bash(cp /c/code/text-games/deploy/feverdream-sharpee/styles.css /c/code/npmsharpee/games/fever-dream/browser/styles.css)",
+      "Bash(cp /c/code/text-games/deploy/feverdream-sharpee/src/browser-entry.ts /c/code/npmsharpee/games/fever-dream/src/browser-entry.ts)",
+      "Bash(npx serve:*)",
+      "Bash(python:*)",
+      "Bash(curl -s http://localhost:8080/play.html)",
+      "Bash(curl -s http://127.0.0.1:9000/api/status)",
+      "Bash(taskkill //F //IM python.exe //FI \"WINDOWTITLE eq *http.server*\")",
+      "Bash(kill %1)"
     ]
   }
 }
